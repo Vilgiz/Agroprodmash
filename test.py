@@ -20,6 +20,11 @@ while True:
         # Извлечение координат контура QR-кода
         (x, y, w, h) = qr_code.rect
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        weight_division_by_two = w/2
+        height_division_by_two = h/2
+        center = (int(x + weight_division_by_two), int(y + height_division_by_two))
+        cv2.circle(frame, center, 3, (0, 255, 0), 3)
+
         
         # Рисование текста содержимого QR-кода
         cv2.putText(frame, qr_data, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
