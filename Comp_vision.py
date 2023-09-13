@@ -1,8 +1,8 @@
 import cv2
 import math
 import numpy as np
-from Camera import Camera
-
+from pyzbar import pyzbar
+from math import sqrt
 
 class Vision():
 
@@ -14,6 +14,9 @@ class Vision():
         self.count = 0
         self.param1 = 1
         self.param2 = 0.26  # 0.43
+        self.focus = 0
+        self.center_of_QR = []
+        self.detect_cans_with_qr_code = []
 
     def Find_contors(self, frame):
         self.count += 1
@@ -64,11 +67,14 @@ class Vision():
                 self.track_id += 1
         self.cans_prev_frame = self.cans_curr_frame.copy()
         self.__check()
+        self.__detect_QR(frame)        
         self.__show_circle(frame)
 
-        # ? if self.count == 1:
-            # ? cv2.createTrackbar('param1', 'frame', 1, 1000, self.__onChange1)   
-            # ? cv2.createTrackbar('param2', 'frame', 1, 1000, self.__onChange2) 
+        if self.count == 1:
+            # ? cv2.createTrackbar('param1', 'Video', 1, 1000, self.__onChange1)   
+            # ? cv2.createTrackbar('param2', 'Video', 1, 1000, self.__onChange2) 
+            # ? cv2.createTrackbar('focus', 'Video', 1, 1000, self.__onFocus) 
+            pass
 
     def __show_circle(self, frame):
         for self.obj_id, pt in self.track_cans.items():
@@ -77,6 +83,7 @@ class Vision():
             cv2.circle(frame, self.center_cv, 3, (0, 255, 0), 3)
             cv2.putText(frame, str(self.obj_id),
                         (pt[0], pt[1] - 7), 0, 1, (0, 0, 255), 2)
+        cv2.namedWindow("Video") 
         cv2.imshow('Video', frame)
 
     def __trans_coord(self):
@@ -107,27 +114,51 @@ class Vision():
         value2 = (value2 / 1000) - 0.001
         self.param2 = value2
 
+    def __onFocus(self, value3):
+        self.focus = value3
+
     def __detect_QR(self, frame):
-        """ for self.obj_id, pt in self.track_cans.items():
-            self.center_cv = pt
-            cv2.circle(frame, self.center_cv, self.radius_cv, (255, 0, 255), 3)
-            cv2.circle(frame, self.center_cv, 3, (0, 255, 0), 3)
-            cv2.putText(frame, str(self.obj_id),
-                        (pt[0], pt[1] - 7), 0, 1, (0, 0, 255), 2) """
-        
-        pass
+        qr_codes = pyzbar.decode(self.gray)
+        self.center_of_QR = []     
+    
+        for qr_code in qr_codes:
+            # Извлечение содержимого QR-кода
+            qr_data = qr_code.data.decode("utf-8")
+            
+            # Извлечение координат контура QR-кода
+            (x, y, w, h) = qr_code.rect
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            weight_division_by_two = w/2
+            height_division_by_two = h/2
+            center = (int(x + weight_division_by_two), int(y + height_division_by_two))
+            cv2.circle(frame, center, 3, (0, 255, 0), 3)
+            
+            # Рисование текста содержимого QR-кода
+            cv2.putText(frame, qr_data, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)               
+            self.center_of_QR.append(center)  
 
-
+    def detect_cans_with_qr(self, frame):
+        self.detect_cans_with_qr_code = []
+        for cans in self.track_only_coord:
+            if self.center_of_QR is not None:
+                for qr in self.center_of_QR:
+                    distance = sqrt((cans[1] - qr[1])**2 + (cans[0] - qr[0])**2)
+                    if distance <= 120:
+                        self.detect_cans_with_qr_code.append(cans)
+                        print("YES, YES, YES, YES ,YES, YES, YES")
+            else:
+                break
 
 if __name__ == '__main__':
-
-    camera = Camera()
+    
+    video = cv2.VideoCapture(1)
     Vis = Vision()
 
     while True:
-        warped_image = camera.get_image()
+        ret, warped_image = video.read()
         cv2.waitKey(1)
 
         Vis.Find_contors(warped_image)
         Vis.Find_Rocks(warped_image)
-        print(Vis.track_only_coord)
+        Vis.detect_cans_with_qr(warped_image)
+        print(Vis.detect_cans_with_qr_code)

@@ -21,8 +21,9 @@ while True:
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     
     # Обнаружение объектов с использованием алгоритма Хафа
-    circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, 1, 20,
-                               param1=50, param2=30, minRadius=100, maxRadius=200)
+    circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, 1, 75,
+                               param1 = 0.5, param2 = 0.26, minRadius=130, maxRadius=140)
+    
     
     if circles is not None:
         circles = np.round(circles[0, :]).astype("int")
@@ -36,7 +37,7 @@ while True:
             prediction = kalman.predict()
             
             # Рисование предсказанной траектории
-            cv2.circle(frame, (int(prediction[0]), int(prediction[1])), 5, (0, 255, 0), -1)
+            #cv2.circle(frame, (int(prediction[0]), int(prediction[1])), 5, (255, 0, 0), -1)
     
     # Отображение кадра
     cv2.imshow("Video", frame)
