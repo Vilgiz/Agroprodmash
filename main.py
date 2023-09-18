@@ -8,7 +8,7 @@ kalman.measurementMatrix = np.array([[1, 0, 0, 0], [0, 1, 0, 0]], np.float32)
 kalman.transitionMatrix = np.array([[1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, 0, 1]], np.float32)
 
 # Открытие видеопотока
-video = cv2.VideoCapture(1)
+video = cv2.VideoCapture(0)
 
 while True:
     # Считывание кадра из видеопотока
@@ -22,7 +22,7 @@ while True:
     
     # Обнаружение объектов с использованием алгоритма Хафа
     circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, 1, 75,
-                               param1 = 0.5, param2 = 0.26, minRadius=130, maxRadius=140)
+                               param1 = 1, param2 = 0.26, minRadius=130, maxRadius=140)
     
     
     if circles is not None:

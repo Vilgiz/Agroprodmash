@@ -17,6 +17,9 @@ class Vision():
         self.focus = 0
         self.center_of_QR = []
         self.detect_cans_with_qr_code = []
+        self.brightness_factor = 1
+        self.contrast_factor = 1
+        self.saturation_factor = 1
 
     def Find_contors(self, frame):
         self.count += 1
@@ -25,7 +28,7 @@ class Vision():
 
         self.gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         circles = cv2.HoughCircles(self.gray, cv2.HOUGH_GRADIENT_ALT, 1, 75, param1=self.param1, param2=self.param2,
-                                   minRadius=120, maxRadius=130)
+                                   minRadius=150, maxRadius=160)
         if circles is not None:
             circles = np.uint16(np.around(circles))
             red_circles = []
@@ -74,6 +77,10 @@ class Vision():
             # ? cv2.createTrackbar('param1', 'Video', 1, 1000, self.__onChange1)   
             # ? cv2.createTrackbar('param2', 'Video', 1, 1000, self.__onChange2) 
             # ? cv2.createTrackbar('focus', 'Video', 1, 1000, self.__onFocus) 
+
+            cv2.createTrackbar('brightness_factor', 'Video', 1, 2000, self.__onbrightness_factor) 
+            cv2.createTrackbar('contrast_factor', 'Video', 1, 2000, self.__onContrast_factor) 
+            cv2.createTrackbar('saturation_factor', 'Video', 1, 2000, self.__onsaturation_factor) 
             pass
 
     def __show_circle(self, frame):
@@ -115,7 +122,20 @@ class Vision():
         self.param2 = value2
 
     def __onFocus(self, value3):
+        value3 = (value3 / 1000) - 0.001
         self.focus = value3
+
+    def __onbrightness_factor(self, value4):
+        value4 = (value4 / 1000)
+        self.brightness_factor = value4
+
+    def __onContrast_factor(self, value5):
+        value5 = (value5 / 1000)
+        self.contrast_factor = value5
+
+    def __onsaturation_factor(self, value6):
+        value6 = (value6 / 1000)
+        self.saturation_factor = value6
 
     def __detect_QR(self, frame):
         qr_codes = pyzbar.decode(self.gray)
@@ -148,6 +168,44 @@ class Vision():
                         print("YES, YES, YES, YES ,YES, YES, YES")
             else:
                 break
+    
+    def prediction(self, frame):
+        
+        # Инициализация фильтра Калмана для предсказания траекторий
+        kalman = cv2.KalmanFilter(4, 2)
+        kalman.measurementMatrix = np.array([[1, 0, 0, 0], [0, 1, 0, 0]], np.float32)
+        kalman.transitionMatrix = np.array([[1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, 0, 1]], np.float32)
+
+        while True:
+
+            if circles is not None:
+                circles = np.round(circles[0, :]).astype("int")
+                
+                for (x, y, r) in circles:
+                    # Рисование красной точки в центре обнаруженного круга
+                    cv2.circle(frame, (x, y), r, (0, 0, 255), 4)
+                    
+                    # Обновление состояния фильтра Калмана
+                    kalman.correct(np.array([[x], [y]], dtype=np.float32))
+                    prediction = kalman.predict()
+                    
+                    # Рисование предсказанной траектории
+                    cv2.circle(frame, (int(prediction[0]), int(prediction[1])), 5, (255, 0, 0), -1)
+
+    def modify_image(self, warped_image):
+
+         # Изменение яркости
+        warped_image = cv2.convertScaleAbs(warped_image, alpha = self.brightness_factor, beta = 0)
+
+        # Изменение контрастности
+        warped_image = cv2.convertScaleAbs(warped_image, alpha = self.contrast_factor, beta = 0)
+
+        # Изменение насыщенности
+        warped_image = cv2.cvtColor(warped_image, cv2.COLOR_BGR2HSV)
+        warped_image[:, :, 1] = warped_image[:, :, 1] * self.saturation_factor
+        warped_image = cv2.cvtColor(warped_image, cv2.COLOR_HSV2BGR)
+
+        return (warped_image)
 
 if __name__ == '__main__':
     
@@ -155,7 +213,10 @@ if __name__ == '__main__':
     Vis = Vision()
 
     while True:
+        
         ret, warped_image = video.read()
+
+        warped_image = Vis.modify_image(warped_image)
         cv2.waitKey(1)
 
         Vis.Find_contors(warped_image)
