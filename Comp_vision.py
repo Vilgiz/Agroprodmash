@@ -3,6 +3,8 @@ import math
 import numpy as np
 from pyzbar import pyzbar
 from math import sqrt
+from kalmanfilter import KalmanFilter
+from Queue import CircularQueue
 
 class Vision():
 
@@ -17,9 +19,9 @@ class Vision():
         self.focus = 0
         self.center_of_QR = []
         self.detect_cans_with_qr_code = []
-        self.brightness_factor = 1
-        self.contrast_factor = 1
-        self.saturation_factor = 1
+        self.brightness_factor = 0.629
+        self.contrast_factor = 1.12
+        self.saturation_factor = 0.932
 
     def Find_contors(self, frame):
         self.count += 1
@@ -76,11 +78,10 @@ class Vision():
         if self.count == 1:
             # ? cv2.createTrackbar('param1', 'Video', 1, 1000, self.__onChange1)   
             # ? cv2.createTrackbar('param2', 'Video', 1, 1000, self.__onChange2) 
-            # ? cv2.createTrackbar('focus', 'Video', 1, 1000, self.__onFocus) 
 
-            cv2.createTrackbar('brightness_factor', 'Video', 1, 2000, self.__onbrightness_factor) 
-            cv2.createTrackbar('contrast_factor', 'Video', 1, 2000, self.__onContrast_factor) 
-            cv2.createTrackbar('saturation_factor', 'Video', 1, 2000, self.__onsaturation_factor) 
+            # ? cv2.createTrackbar('brightness_factor', 'Video', 1, 2000, self.__onbrightness_factor) 
+            # ? cv2.createTrackbar('contrast_factor', 'Video', 1, 2000, self.__onContrast_factor) 
+            # ? cv2.createTrackbar('saturation_factor', 'Video', 1, 2000, self.__onsaturation_factor) 
             pass
 
     def __show_circle(self, frame):
@@ -121,10 +122,6 @@ class Vision():
         value2 = (value2 / 1000) - 0.001
         self.param2 = value2
 
-    def __onFocus(self, value3):
-        value3 = (value3 / 1000) - 0.001
-        self.focus = value3
-
     def __onbrightness_factor(self, value4):
         value4 = (value4 / 1000)
         self.brightness_factor = value4
@@ -142,10 +139,9 @@ class Vision():
         self.center_of_QR = []     
     
         for qr_code in qr_codes:
-            # Извлечение содержимого QR-кода
+
             qr_data = qr_code.data.decode("utf-8")
             
-            # Извлечение координат контура QR-кода
             (x, y, w, h) = qr_code.rect
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
             weight_division_by_two = w/2
@@ -153,7 +149,6 @@ class Vision():
             center = (int(x + weight_division_by_two), int(y + height_division_by_two))
             cv2.circle(frame, center, 3, (0, 255, 0), 3)
             
-            # Рисование текста содержимого QR-кода
             cv2.putText(frame, qr_data, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)               
             self.center_of_QR.append(center)  
 
@@ -169,57 +164,37 @@ class Vision():
             else:
                 break
     
-    def prediction(self, frame):
-        
-        # Инициализация фильтра Калмана для предсказания траекторий
-        kalman = cv2.KalmanFilter(4, 2)
-        kalman.measurementMatrix = np.array([[1, 0, 0, 0], [0, 1, 0, 0]], np.float32)
-        kalman.transitionMatrix = np.array([[1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, 0, 1]], np.float32)
+    def prediction(self, img, positions):
 
-        while True:
+        for pt in positions:
+            cv2.circle(img, pt, 15, (220, 20, 220), -1) 
+            predicted = kf.predict(pt[0], pt[1])
+            cv2.circle(img, predicted, 15, (20, 0, 20), 4)
+            print(predicted)
 
-            if circles is not None:
-                circles = np.round(circles[0, :]).astype("int")
-                
-                for (x, y, r) in circles:
-                    # Рисование красной точки в центре обнаруженного круга
-                    cv2.circle(frame, (x, y), r, (0, 0, 255), 4)
-                    
-                    # Обновление состояния фильтра Калмана
-                    kalman.correct(np.array([[x], [y]], dtype=np.float32))
-                    prediction = kalman.predict()
-                    
-                    # Рисование предсказанной траектории
-                    cv2.circle(frame, (int(prediction[0]), int(prediction[1])), 5, (255, 0, 0), -1)
+        return img
 
-    def modify_image(self, warped_image):
 
-         # Изменение яркости
-        warped_image = cv2.convertScaleAbs(warped_image, alpha = self.brightness_factor, beta = 0)
 
-        # Изменение контрастности
-        warped_image = cv2.convertScaleAbs(warped_image, alpha = self.contrast_factor, beta = 0)
-
-        # Изменение насыщенности
-        warped_image = cv2.cvtColor(warped_image, cv2.COLOR_BGR2HSV)
-        warped_image[:, :, 1] = warped_image[:, :, 1] * self.saturation_factor
-        warped_image = cv2.cvtColor(warped_image, cv2.COLOR_HSV2BGR)
-
-        return (warped_image)
 
 if __name__ == '__main__':
     
     video = cv2.VideoCapture(1)
     Vis = Vision()
+    kf = KalmanFilter()
+    coord = CircularQueue(10)
+    
 
     while True:
-        
         ret, warped_image = video.read()
 
-        warped_image = Vis.modify_image(warped_image)
         cv2.waitKey(1)
 
         Vis.Find_contors(warped_image)
         Vis.Find_Rocks(warped_image)
         Vis.detect_cans_with_qr(warped_image)
         print(Vis.detect_cans_with_qr_code)
+        item = Vis.detect_cans_with_qr_code
+        coord.enqueue(item)
+        data = coord.print_data()
+        Vis.prediction(warped_image, data)
