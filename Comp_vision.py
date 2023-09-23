@@ -167,10 +167,13 @@ class Vision():
     def prediction(self, img, positions):
 
         for pt in positions:
-            cv2.circle(img, pt, 15, (220, 20, 220), -1) 
-            predicted = kf.predict(pt[0], pt[1])
+            center = [pt[0][0], pt[0][1]]  # Извлекаем элемент из вложенного массивам извлеченный элем
+            #cv2.circle(img, center, 15, (220, 20, 220), -1) 
+            predicted = kf.predict(center[0], center[1])
             cv2.circle(img, predicted, 15, (20, 0, 20), 4)
             print(predicted)
+            cv2.namedWindow("Video_pred") 
+            cv2.imshow('Video_pred', img)
 
         return img
 
@@ -193,8 +196,13 @@ if __name__ == '__main__':
         Vis.Find_contors(warped_image)
         Vis.Find_Rocks(warped_image)
         Vis.detect_cans_with_qr(warped_image)
-        print(Vis.detect_cans_with_qr_code)
+        #print(Vis.detect_cans_with_qr_code)
         item = Vis.detect_cans_with_qr_code
         coord.enqueue(item)
         data = coord.print_data()
-        Vis.prediction(warped_image, data)
+
+        for i in data:
+            if i == None or i == []:
+                break
+        else:
+            Vis.prediction(warped_image, data)
