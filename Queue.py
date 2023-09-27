@@ -9,9 +9,6 @@ class CircularQueue:
         self.size = 0
 
     def enqueue(self, item):
-        if self.is_full():
-            # Если очередь полна, новый элемент записывается в голову
-            self.head = (self.head + 1) % self.capacity
         self.queue[self.tail] = item
         self.tail = (self.tail + 1) % self.capacity
         self.size += 1

@@ -5,6 +5,7 @@ from pyzbar import pyzbar
 from math import sqrt
 from kalmanfilter import KalmanFilter
 from Queue import CircularQueue
+import time
 
 class Vision():
 
@@ -22,6 +23,7 @@ class Vision():
         self.brightness_factor = 0.629
         self.contrast_factor = 1.12
         self.saturation_factor = 0.932
+        self.pred = None
 
     def Find_contors(self, frame):
         self.count += 1
@@ -136,6 +138,7 @@ class Vision():
 
     def __detect_QR(self, frame):
         qr_codes = pyzbar.decode(self.gray)
+
         self.center_of_QR = []     
     
         for qr_code in qr_codes:
@@ -165,44 +168,55 @@ class Vision():
                 break
     
     def prediction(self, img, positions):
-
+        i = 0
         for pt in positions:
-            center = [pt[0][0], pt[0][1]]  # Извлекаем элемент из вложенного массивам извлеченный элем
-            #cv2.circle(img, center, 15, (220, 20, 220), -1) 
+            center = [pt[0][0], pt[0][1]]  # Извлекаем элемент из вложенного массива
+            cv2.circle(img, center, 8, (220, 0, 0), -1)
+            cv2.putText(img, str(i), center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)      
             predicted = kf.predict(center[0], center[1])
-            cv2.circle(img, predicted, 15, (20, 0, 20), 4)
+            #cv2.circle(img, predicted, 8, (20, 0, 255), -1)
+            print("tyda")
             print(predicted)
-            cv2.namedWindow("Video_pred") 
-            cv2.imshow('Video_pred', img)
-
+            cv2.namedWindow("Viwdeeeo") 
+            cv2.imshow('Viwdeeeo', img)
+            i += 1
+        self.pred = predicted
         return img
-
-
 
 
 if __name__ == '__main__':
     
-    video = cv2.VideoCapture(1)
+    size = 10
+
+    video = cv2.VideoCapture(0)
     Vis = Vision()
     kf = KalmanFilter()
-    coord = CircularQueue(10)
+    coord = CircularQueue(size)
     
 
     while True:
         ret, warped_image = video.read()
 
+        cv2.circle(warped_image, Vis.pred, 8, (20, 0, 255), -1)
         cv2.waitKey(1)
 
         Vis.Find_contors(warped_image)
         Vis.Find_Rocks(warped_image)
         Vis.detect_cans_with_qr(warped_image)
-        #print(Vis.detect_cans_with_qr_code)
+        print("ottyda")
+        print(Vis.detect_cans_with_qr_code)
         item = Vis.detect_cans_with_qr_code
-        coord.enqueue(item)
-        data = coord.print_data()
 
-        for i in data:
-            if i == None or i == []:
-                break
-        else:
-            Vis.prediction(warped_image, data)
+        if item is not None:
+            if item != []: 
+                coord.enqueue(item)
+                time.sleep(0.4)
+                if size == coord.size:
+                    data = coord.print_data()
+                    #data = [[(50,300)],[(134,320)],[(152,280)],[(223,300)],[(240,320)],
+                             #[(330,280)],[(364,300)],[(400,320)],[(459,280)],[(470,300)]] 
+                    cv2.circle(warped_image, Vis.pred, 8, (20, 0, 255), -1)
+                    cv2.namedWindow("Viwdeo") 
+                    cv2.imshow('Viwdeo', warped_image)
+                    Vis.prediction(warped_image, data)
+                    coord.dequeue()
