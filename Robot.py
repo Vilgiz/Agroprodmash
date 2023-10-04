@@ -11,7 +11,7 @@ class Robot(Thread):
         Thread.__init__(self)
 
         self.HOST = ""
-        self.PORT = 48568
+        self.PORT = 48569
         self.perm_start = False
         self.perm_step = False
         self.perm_stop = False
@@ -31,8 +31,8 @@ class Robot(Thread):
             self.__print(f"Client with IP {addr} was connected")
             self.conn = conn
             self.__start = lambda: self.conn.sendall(b'start;')
-            self.__cast = lambda id, speed = 0: self.conn.sendall(
-                f'cast;{int(id[0])};{int(id[1])};{int(speed)};'.encode())
+            self.__cast = lambda id, speed = self.speed, coord = self.coord: self.conn.sendall(
+                f'cast;{int(speed)};{int(coord)};'.encode())
             self.__wait = lambda: self.conn.sendall(b'wait;')
             self.is_connected = True
         except Exception as e:
@@ -54,9 +54,10 @@ class Robot(Thread):
     def send_start(self):
         self.perm_start = True
 
-    def send_step(self, id, speed):
+    def send_step(self, id, speed, coord):
         self.id = id
         self.speed = speed
+        self.coord = coord
         self.perm_step = True
 
     def __thread(self):
@@ -100,3 +101,5 @@ if __name__ == "__main__":
         print(p)
         if len(p) == 3:
             rdt.send_step(p[0:2], p[2])
+
+

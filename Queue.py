@@ -17,9 +17,11 @@ class CircularQueue:
         if self.is_empty():
             return None
         item = self.queue[self.head]
-        self.queue[self.head] = None
-        self.head = (self.head + 1) % self.capacity
-        self.size -= 1
+        for i in range(self.capacity):
+            self.queue[self.head] = None
+            self.head = (self.head + 1) % self.capacity
+            i += 1
+            self.size -= 1
         return item
 
     def is_empty(self):
