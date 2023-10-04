@@ -11,7 +11,7 @@ class Robot(Thread):
         Thread.__init__(self)
 
         self.HOST = ""
-        self.PORT = 48569
+        self.PORT = 48568
         self.perm_start = False
         self.perm_step = False
         self.perm_stop = False
