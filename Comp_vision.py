@@ -311,7 +311,7 @@ class Vision():
         xList = [item for item in range(0, 610)]                # ВАжный параметр
         for pt in positions:
             center = [pt[0][0], pt[0][1]]
-            if i == 26:
+            if i == 15:
                 pass
             else:
                 position = [positions[i+1][0][0], positions[i+1][0][1]]
@@ -333,7 +333,7 @@ class Vision():
             if (B ** 2 - (4 * A * C)) >= 0: 
                 XXX = int((-B - math.sqrt(B ** 2 - (4 * A * C))) / (2 * A))
         height, width, channels = img.shape
-        cv2.circle(img, ((width * 2)+300 ,y), 20, (255, 0, 0), cv2.FILLED)
+        cv2.circle(img, ((width * 2)+1000 ,y), 20, (255, 0, 0), cv2.FILLED)
         #cv2.circle(img, (20,y), 20, (255, 0, 0), cv2.FILLED)
         self.left_predcition = (20,y)                                   # куда движемся
 
@@ -372,7 +372,7 @@ class Vision():
 
 if __name__ == '__main__':
     
-    size = 27
+    size = 16
 
     video = cv2.VideoCapture(1)
     Vis = Vision()
