@@ -11,7 +11,7 @@ class CircularQueue:
     def enqueue(self, item):
         self.queue[self.tail] = item
         self.tail = (self.tail + 1) % self.capacity
-        self.size += 1
+        #self.size += 1
 
     def dequeue(self):
         if self.is_empty():
@@ -21,7 +21,7 @@ class CircularQueue:
             self.queue[self.head] = None
             self.head = (self.head + 1) % self.capacity
             i += 1
-            self.size -= 1
+            #self.size -= 1
         return item
 
     def is_empty(self):

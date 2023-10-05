@@ -382,10 +382,11 @@ if __name__ == '__main__':
 
 
     robot_tsp.speed = 3000
+    robot_tsp.coord = 3000
     robot_tsp.start()
     robot_tsp.send_start()
     cotun = 0
-
+    coord.size = 0
     while True:
         ret, warped_image = video.read()
         warped_image = Vis.factor(warped_image)
@@ -407,8 +408,10 @@ if __name__ == '__main__':
 
         if Vis.Grabable_cans == []:
             cotun += 1
-            if cotun == 5:
+            if cotun >= 10:
                 coord.dequeue()
+                coord.size = 0
+                cotun = 0
 
         item = Vis.Grabable_cans
 
@@ -416,11 +419,13 @@ if __name__ == '__main__':
             if item != []: 
                 item = item[0]
                 coord.enqueue(item)
+                coord.size += 1
                 if size == coord.size:
                     data = coord.print_data()
                     #Vis.prediction(peredacha, data)
                     Vis.new_prediction(peredacha, data)
                     coord.dequeue()
+                    coord.size = 0
                     Vis.coord_transform()              # ! Координаты
                     with open("coff.json", "r") as file:
                         coff = json.load(file)
