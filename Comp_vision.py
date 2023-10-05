@@ -7,6 +7,7 @@ from kalmanfilter import KalmanFilter
 from Queue import CircularQueue
 from Robot import Robot
 import time
+import json
 
 class Vision():
 
@@ -310,7 +311,7 @@ class Vision():
         xList = [item for item in range(0, 610)]                # ВАжный параметр
         for pt in positions:
             center = [pt[0][0], pt[0][1]]
-            if i == 29:
+            if i == 26:
                 pass
             else:
                 position = [positions[i+1][0][0], positions[i+1][0][1]]
@@ -331,10 +332,12 @@ class Vision():
             cv2.circle(img, (x,y), 2, (0, 255, 0), cv2.FILLED)
             if (B ** 2 - (4 * A * C)) >= 0: 
                 XXX = int((-B - math.sqrt(B ** 2 - (4 * A * C))) / (2 * A))
-        cv2.circle(img, (x,y), 20, (255, 0, 0), cv2.FILLED)
-        cv2.circle(img, (20,y), 20, (255, 0, 0), cv2.FILLED)
+        height, width, channels = img.shape
+        cv2.circle(img, ((width * 2)+300 ,y), 20, (255, 0, 0), cv2.FILLED)
+        #cv2.circle(img, (20,y), 20, (255, 0, 0), cv2.FILLED)
         self.left_predcition = (20,y)                                   # куда движемся
-        self.right_predcition = (x,y)
+
+        self.right_predcition = (width *2,y)
         cv2.imshow('Viwdeeeeo_@@@', img)
         return img
 
@@ -362,17 +365,14 @@ class Vision():
         Dlina_1 = 190
         Dlina_2 = 790-8
 
-        self.X = Dlina_1 - Vis.right_predcition[1]
-        self.Y = Dlina_2 - Vis.right_predcition[0]
-
-        
-        return self.Grabable_cans
+        self.X = Vis.right_predcition[1]
+        self.Y = Vis.right_predcition[0]
 
 
 
 if __name__ == '__main__':
     
-    size = 30
+    size = 27
 
     video = cv2.VideoCapture(1)
     Vis = Vision()
@@ -380,8 +380,11 @@ if __name__ == '__main__':
     coord = CircularQueue(size)
     robot_tsp = Robot(print_debug = True)
 
+
+    robot_tsp.speed = 3000
     robot_tsp.start()
     robot_tsp.send_start()
+    cotun = 0
 
     while True:
         ret, warped_image = video.read()
@@ -402,7 +405,10 @@ if __name__ == '__main__':
 
         Vis.sort()                                           # ? сортируем
 
-
+        if Vis.Grabable_cans == []:
+            cotun += 1
+            if cotun == 5:
+                coord.dequeue()
 
         item = Vis.Grabable_cans
 
@@ -416,4 +422,19 @@ if __name__ == '__main__':
                     Vis.new_prediction(peredacha, data)
                     coord.dequeue()
                     Vis.coord_transform()              # ! Координаты
-                    robot_tsp.send_step(0, Vis.X, Vis.Y)
+                    with open("coff.json", "r") as file:
+                        coff = json.load(file)
+                    height, width, channels = peredacha.shape
+                    height = height / coff
+                    X = Vis.X / coff
+                    Y = Vis.Y / coff
+                    Y = height - Y
+                    print(X)
+                    print(Y)
+                    robot_tsp.speed = X
+                    robot_tsp.id = Y
+                    robot_tsp.send_step(Y, X)
+                    robot_tsp.__cast = lambda id, speed = robot_tsp.speed, coord = robot_tsp.coord: robot_tsp.conn.sendall(
+                        f'cast;{int(speed)};{int(coord)};'.encode())
+                    pass
+                    

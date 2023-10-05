@@ -23,8 +23,8 @@
 .*   [Shipment setting data]
 .*There is no Shipment setting data.
 .***************************************************************************
-.NETCONF     192.168.40.50,"fcon",255.255.255.0,0.0.0.0,0.0.0.0,0.0.0.0,""
-.NETCONF2     192.168.1.200,255.255.255.0,0.0.0.0
+.NETCONF     192.168.1.28,"fcon",255.255.255.0,0.0.0.0,0.0.0.0,0.0.0.0,""
+.NETCONF2     192.168.10.1,255.255.255.0,0.0.0.0
 .ROBOTDATA1
 ZROBOT.TYPE    30   8   6 826      -13051   RS007L-A001 ( 2023-08-18 12:00 )
 ZSYSTEM         1   5         -91
@@ -320,8 +320,8 @@ MSPIN_ZENDLESS9           0          0          0          0          -1        
 MSPIN_ZENDLESS10           0          0          0          0          -1          -1
 MSPIN_ZENDLESS11           0          0          0          0          -1          -1
 MSPIN_ZENDLESS12           0          0          0          0          -1          -1
-NETCONF      192.168.40.50,"fcon",255.255.255.0,0.0.0.0,0.0.0.0,0.0.0.0,""
-NETCONF2     192.168.1.200,255.255.255.0,0.0.0.0
+NETCONF      192.168.1.28,"fcon",255.255.255.0,0.0.0.0,0.0.0.0,0.0.0.0,""
+NETCONF2     192.168.10.1,255.255.255.0,0.0.0.0
 NETCONF2S    0.0.0.0,0.0.0.0,0.0.0.0
 ZUDP_RECV_WAIT          2
 ZUDP_SEND_WAIT          2
@@ -1297,38 +1297,38 @@ ZSWITCH ZFIX_SUSPEND    ON   -513
 .END
 .OPE_INFO1
 OPEINFO  30 8 6 826  0  ;(70/1/1 0:00:00) RS007L-A001 
-CONT_TIM  1500.2 
-SERV_TIM  1286.3 
-MTON_CNT  10195 
+CONT_TIM  1505.6 
+SERV_TIM  1286.7 
+MTON_CNT  10281 
 ESTP_CNT  61 
-BRKE_CNT  13059 
-CON_PWR  194.578 
-SUP_PWR  194.578 
+BRKE_CNT  13138 
+CON_PWR  194.929 
+SUP_PWR  194.929 
 REG_PWR  0.000 
-MOVE_TJT  61.1 84.1 78.8 50.8 69.9 70.4 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-DIST_DJT  1971.376 2079.952 1812.424 3847.872 2868.624 6192.936 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
-DIST_DJT_PLUS  983.992 1038.712 902.768 1916.568 1429.480 3087.968 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
-OPEINFO TP_BKLIGHT  0 651.1 50000 
+MOVE_TJT  61.2 84.2 78.9 50.8 69.9 70.4 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+DIST_DJT  1972.128 2080.568 1813.208 3848.576 2869.984 6194.792 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
+DIST_DJT_PLUS  984.336 1039.024 903.192 1916.912 1430.128 3088.840 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
+OPEINFO TP_BKLIGHT  0 655.6 50000 
 OPEINFO MC  0 0 2000000 
 OPEINFO PARTS1  0 0 0 0 0 0 0 0 0 0 0 
 OPEINFO PARTS2  0 0 0 0 0 0 0 0 0 0 0 
 OPEINFO PARTS3  0 0 0 0 0 0 0 0 0 0 0 
 M_OPEINFO  30 8 6 826  1523620103  ;(18/4/13 11:48:23) RS007L-A001 
-M_CONT_TIM  2441.2 
-M_SERV_TIM  1639.3 
-M_MTON_CNT  20937 
+M_CONT_TIM  2446.6 
+M_SERV_TIM  1639.8 
+M_MTON_CNT  21023 
 M_ESTP_CNT  110 
-M_BRKE_CNT  26332 
-M_CON_PWR  282.380 
-M_SUP_PWR  282.380 
+M_BRKE_CNT  26411 
+M_CON_PWR  282.731 
+M_SUP_PWR  282.731 
 M_REG_PWR  0.000 
-M_MOVE_TJT  140.9 187.2 184.0 85.2 136.8 116.4 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-M_DIST_DJT  4499.328 4355.280 5368.944 5573.680 5093.368 8551.264 16.192 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
-M_DIST_DJT_PLUS  983.992 1038.712 902.768 1916.568 1429.480 3087.968 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
+M_MOVE_TJT  141.0 187.2 184.0 85.2 136.8 116.4 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+M_DIST_DJT  4500.080 4355.896 5369.728 5574.384 5094.728 8553.120 16.192 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
+M_DIST_DJT_PLUS  984.336 1039.024 903.192 1916.912 1430.128 3088.840 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
 M_MOVE_TJT_OVERDRIVE  0.0 0.0 0.0 0.0 0.0 0.0 
 M_DIST_DJT_OVERDRIVE  0.000 0.000 0.000 0.000 0.000 0.000 
 M_WARN_CJT_OVERDRIVE  0 0 0 0 0 0 
-HOUR_MTR  2441.2 
+HOUR_MTR  2446.6 
 .END
 .SYSDATA
 REG_POINT       0
@@ -1815,8 +1815,8 @@ FB_MOLEX_PFB_FILES[1] QlpoOTFBWSZTWRvdeTUAIHl/h8KQACBQA//iESDaDv/v30AABEAAAEQACF
 FB_MOLEX_PFB_FILES[2] RTHjObEgMYznfO++++++blIDlggPV+HagPuqq9WYDVYw4zhx2tYYqqxNVrWybDbbbfEajWth14aTWtk2pd2JYN3YFQlUJVUJRUgHJVScvPdzhWtc3NrnNzUjmbiWpd2JaF3Y1LWr5QACxu7pVW0l7Kq2F3dt3JJGSLCQkut6333133ozON3egABVcaqTxqq1RJOEGpBgSaVtWm2nHbbBwAAmnJSFyJHQQAurnGsrNddczHI4AATVVW6gqseeDUgR1AAOKABsqrfCVWtbcdNdtsDWYqrDiAARyLcjGpU4VdcMzMzN4aAAG1a6oAFRAAhy1iqtyFQDkkI8gABKm1b6cdNd980QAkEWRnDKyAw5oDXHZsAxc8cM8+HPj08+fKnTjKzMzMzBO0AAdvlV
 FB_MOLEX_PFB_FILES[3] V6Oz0X6On09NKq97+AA4evqVVeiqr0gPEB0QH+1VbQHuVVf3Ad+Kqv8gP2cYD4VVcPGqrvqqzmqrgAyA8ADzP3dcB7XhAaAeEB13vAe+A7Kqu6qrz8sAO+qr4eWKqu6qrToAe2qru66qt8gPFr//T5Kq2qq3gPs8vGqrQDtAbQHVmAefygOlVV0gPtkF8RdyRThQkBvdeTU=
 FB_CIFX_FILES[0] 2
-FB_CIFX_FILES[1] QlpoOTFBWSZTWXAypDMAAIr7wsQQACBAA/+CTAr/79/gAAZAAAAIMAE6ttthqBqaamyaZTTJoAaDJo0PUGpiap5TEZMjamQANAaPRBKmSMmkZGQ0yBkGgANNxcSmAo5QSMYBNTQUCCKmWAxwTCDBS2JhXajkbse+acMGAQMoRGVNGKSHpE3xy6icHmASY4AegE4XXKFVVshehIOIP1i2EiPa0ekG3IsjyM1IpglUGQQ0UI5RIGQsuvJPBeysM7njEW3xDRHgGdTTcDNzJdTw8Sln3cMjz+IAibKLkp14oMhWnpBMVBOBiJy8QaNUsGmBjZHtKzOJF7KXYKQ+Daq5Vn0Zit2SqaiJoN8oleTFacIUSaSZPhl/CcTMrKp9u5oppU3NRGtjT6D8goKd
-FB_CIFX_FILES[2] fdCyuIB6YMbUwrZBNCyXFjBYCtDuQYfxdyRThQkHAypDMA==
+FB_CIFX_FILES[1] QlpoOTFBWSZTWbB2CdUAAIr7wsQQACBAA/+CTAr/79/gAAZAAAAIMAE6y22GoGppqbJplNMmgBoMmjQ9QamECEZMhpkDQNAaNAShI1GTE9TQ00AAAA9NhuJyIw9gWUQCkgQFKxoTCPCkUQY2yIV2o5G7HvmnDBgEDKERlTRikh6RN8cuonB5gEmOAHkAMoF1xgLo3vHQgkA4O1awdkRBHoyCXEbgotOLUImqEIOVHMUPkDK7L8CTsXkrDO+A/C3DEKMd4jzNNwM3Ml1PDxKWfdwyPP4gCJsouSnXigyFaekExUE4CgqOYo4cxnHEShJdZaZBZPhW+LE30dZbO1WXGWXnVTUYmg3SiWBMap110SZyZP9j8E4mZpKqFu1RTS03qdNbGn0H5BQU6+6F
+FB_CIFX_FILES[2] lcQD0wY2phWyCaFkuLGCwFaHcgYXC7kinChIWDsE6oA=
 FB_DISCON_MASK_ERR[0]          0         0
 FB_DISCON_MASK_ERR[1]          0         0
 KLOGIC_AS_SIGNUM    0
@@ -2382,11 +2382,11 @@ SWITCH OVERDRIVE_NOBREAK ON
 .CONDITION
 AS_VER       ASF_010000015
 SV_VER       SVF_010000011
-ELOG_NUM            775
+ELOG_NUM            783
 CHK_ONCE      255
-MAN_SPEED     2
-CHK_SPEED     2
-MON_SPEED        30.000
+MAN_SPEED     1
+CHK_SPEED     1
+MON_SPEED         3.000
 PRG_ACCEL       100.000
 PRG_SPEED         2.000
 PRG_DECEL       100.000
@@ -2423,7 +2423,7 @@ PRG_JT_DECEL    100.000   100.000   100.000   100.000   100.000   100.000   100.
 PRM_JT_ACCEL    100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000
 PRM_JT_DECEL    100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000
 STEP1ENV_CALL_PRGNAME main
-STEP1ENV_PRG_STEP         26
+STEP1ENV_PRG_STEP         15
 STEP2ENV0_CALL_PRGNAME autostart.pc
 STEP2ENV0_PRG_STEP         17
 STEP2ENV1_CALL_PRGNAME spief_ifp.pc
@@ -2460,8 +2460,8 @@ USR_DO27     00000000000000000000000000000000
 USR_DO28     00000000000000000000000000000000
 USR_DO29     00000000000000000000000000000000
 USR_DO30     00000000000000000000000000000000
-USR_INTERNAL 00000000000000000000000000000000
-USR_INTERNAL1 00000000000000000000000000000000
+USR_INTERNAL 00000000000000000000000000000010
+USR_INTERNAL1 00000000000000000000000000000010
 USR_INTERNAL2 00000000000000000000000000000000
 USR_INTERNAL3 00000000000000000000000000000000
 USR_INTERNAL4 10000000000000000000000000000000
@@ -2543,7 +2543,7 @@ UCLINE8            0
 UCFGCOLOR8         0
 UCBGCOLOR8         0
 SEQEXECUTE            0
-TPHOLDSTAT    OFF
+TPHOLDSTAT    ON 
 .END
 .AUXDATA
 ROB_START_LIM      0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000
@@ -3103,16 +3103,16 @@ ARG
 @@@ JOINTS @@@
 @@@ REALS @@@
 main_speed Normal robot speed
-Z 
-X_shift 
-Y_shift 
 X 
+X_shift 
 Y 
+Y_shift 
+Z 
 @@@ STRINGS @@@
 @@@ INTEGER @@@
 @@@ SIGNALS @@@
-O_MAGNET[] 
 coord_add 
+O_MAGNET[] 
 @@@ TOOLS @@@
 @@@ BASE @@@
 @@@ FRAME @@@
@@ -3142,56 +3142,61 @@ debug
 182,3,224,244,28,159,252,255,251,255,0,31,2,241,52,255,
 .END
 .PROGRAM Teach () #0
-  BASE NULL
-  TOOL NULL
-  BREAK
-  align
-  LMOVE home_pos
-  LMOVE to_shtora_1
-  LMOVE to_shtora_2
-  Z = DZ (home_pos)
-  LMOVE start_point
-  ;LMOVE Under_grab
-  ;CALL calculate_x1.pc
-  ;BREAK
-  ;POINT base_coord = FRAME (o1, x1, y1, o1)
-  ;BASE base_coord
-  ;BREAK
-  ;BREAK
-  ;LMOVE TRANS (-100, 100, 100, 0, 0, 90)
-  ;BREAK
-  ;JMOVE #t_change
+	BASE NULL
+	TOOL NULL
+	BREAK
+	align
+	LMOVE home_pos
+	LMOVE to_shtora_1
+	LMOVE to_shtora_2
+	Z = DZ (home_pos)
+	LMOVE start_point
+	;LMOVE Under_grab
+	;CALL calculate_x1.pc
+	;BREAK
+	;POINT base_coord = FRAME (o1, x1, y1, o1)
+	;BASE base_coord
+	;BREAK
+	;BREAK
+	;LMOVE TRANS (-100, 100, 100, 0, 0, 90)
+	;BREAK
+	;JMOVE #t_change
 .END
 .PROGRAM MAIN () #1370825
   ;
-  CALL init.pc
+  TOOL NULL
   SPEED 100 MM/S ALWAYS
+  PCEXECUTE autostart.pc
   LMOVE home_pos
   WHILE TRUE DO
     ;
     ;PRINT "coord X" + ":  " + $ENCODE (rd)
     ;PRINT "coord Y" + ":  " + $ENCODE(rd_num)
     ;
-    IF (SIG(coord_add)==TRUE) THEN
+    IF (SIG (coord_add) == TRUE) THEN
       CALL Calc_coodr.PC
       PRINT "coord X" + ":  " + $ENCODE (X)
-      PRINT "coord Y" + ":  " + $ENCODE(Y)
-      LMOVE TRANS (X, Y, Z - 50, -50, 180, 0)
-      SPEED 30 MM/S
-      SIG IO_MAGNET_ON
-      DRAW 0,0,-10,0,0,0
-      BREAK
-      DRAW 0,0,100,0,0,0
-      LMOVE to_shtora_1
-      LMOVE to_shtora_2
-      SPEED 30 MM/S
-      DRAW 0,0,-70,0,0,0
-      BREAK
-      SIG -IO_MAGNET_ON
-      BREAK
-      DRAW 0,0,100,0,0,0
-      SIG -coord_add
-      LMOVE home_pos
+      PRINT "coord Y" + ":  " + $ENCODE (Y)
+      IF (X > 190) THEN
+        IF (Y > 330) THEN
+          LMOVE TRANS (X, Y, Z - 50, -50, 180, 0)
+          SPEED 30 MM/S
+          SIGNAL io_magnet_on
+          DRAW 0, 0, -10, 0, 0, 0
+          BREAK
+          DRAW 0, 0, 100, 0, 0, 0
+          LMOVE to_shtora_1
+          LMOVE to_shtora_2
+          SPEED 30 MM/S
+          DRAW 0, 0, -70, 0, 0, 0
+          BREAK
+          SIGNAL -io_magnet_on
+          BREAK
+          DRAW 0, 0, 100, 0, 0, 0
+          SIGNAL -coord_add
+          LMOVE home_pos
+        END 
+      END
     END
     ;
   END
@@ -3208,30 +3213,30 @@ debug
 	; *******************************************************************
 	;
 .END
-.PROGRAM align()
-  ; *******************************************************************
-  ;
-  ; Program:      align
-  ; Comment:      
-  ; Author:       User
-  ;
-  ; Date:         10/4/2023
-  ;
-  ; *******************************************************************
-  ;
-  align
+.PROGRAM align () #0
+	; *******************************************************************
+	;
+	; Program:      align
+	; Comment:
+	; Author:       User
+	;
+	; Date:         10/4/2023
+	;
+	; *******************************************************************
+	;
+	align
 .END
-.PROGRAM init.pc () #1370831
-  ; Internal signals for IFP
-  int_exec_main = 2900
-  ; TCP/IP Settings
-  tcp_port = 48568
-  $tcp_ip = "192.168.1.228"
-  tcp_send_time = 10
-  tcp_conn_time = 10
-  tcp_recv_time = 15
-  socket_id = -1
-  IO_MAGNET_ON = 8
+.PROGRAM init.pc () #1370835
+	; Internal signals for IFP
+	int_exec_main = 2900
+	; TCP/IP Settings
+	tcp_port = 48568
+	$tcp_ip = "192.168.1.228"
+	tcp_send_time = 10
+	tcp_conn_time = 10
+	tcp_recv_time = 15
+	socket_id = -1
+	io_magnet_on = 8
 .END
 .PROGRAM Calculate.PC () #0
 	.a = DX (o1)
@@ -3244,12 +3249,12 @@ debug
 	.y = .aa - ((.b - .a) * (.x - .a)) / (.bb - .aa)
 	POINT x1 = TRANS (.x, .y, DZ (o1), 0, 0, 0)
 .END
-.PROGRAM tcp_send.pc (.$msg) #165172
+.PROGRAM tcp_send.pc (.$msg) #168876
 	.$send_buf[1] = .$msg
 	.buf_n = 1
 	TCP_SEND .ret, socket_id, .$send_buf[1], .buf_n, tcp_send_time
 .END
-.PROGRAM tcp_recv.pc (.$msg, .ret) #165537
+.PROGRAM tcp_recv.pc (.$msg, .ret) #169537
   .num = 0
   .max_length = 255
   TCP_RECV .ret, socket_id, .$recv_buf[1], .num, tcp_recv_time, .max_length
@@ -3261,13 +3266,12 @@ debug
     IF .num > 0 THEN
       .$msg = .$recv_buf[1]
       CALL slog.pc ("Received message: " + .$msg)
-      SIG coord_add
     ELSE
       .$msg = ""
     END
   END
 .END
-.PROGRAM check_socket.pc () #1238;
+.PROGRAM check_socket.pc () #1548;
 	CALL slog.pc ("Checking tcp/ip status")
 	TCP_STATUS .p1, .p2[0], .p3[0], .p4[0], .p5[0], .$p6[0]
 	IF .p1 <> 0 THEN
@@ -3288,7 +3292,7 @@ debug
 		CALL slog.pc ("Tcp/ip status OK")
 	END
 .END
-.PROGRAM open_socket.pc () #1214
+.PROGRAM open_socket.pc () #1523
 	; Check socket
 	CALL check_socket.pc
 	; Get current IP
@@ -3321,7 +3325,7 @@ debug
 		END
 	END
 .END
-.PROGRAM close_socket.pc () #228
+.PROGRAM close_socket.pc () #521
 	CALL slog.pc ("Closing connection")
 	TCP_CLOSE .ret, socket_id
 	CALL slog.pc ("Connection closed")
@@ -3346,11 +3350,11 @@ debug
 		TWAIT 5
 	END
 	WHILE TRUE DO
-		IF SIG (IO_MAGNET_ON) == TRUE THEN
+		IF SIG (io_magnet_on) == TRUE THEN
 			FOR .i = 1 TO 6
 				SIGNAL O_MAGNET[.i]
 			END
-			IF SIG (IO_MAGNET_ON) == FALSE THEN
+			IF SIG (io_magnet_on) == FALSE THEN
 				FOR .i = 1 TO 6
 					SIGNAL -O_MAGNET[.i]
 				END
@@ -3363,10 +3367,10 @@ debug
 		PRINT 0: $TIME + ": " + $ENCODE (.num)
 	END
 .END
-.PROGRAM slog.pc (.$msg) #176822;
-  IF debug THEN
-    PRINT 0: $TIME + ": " + .$msg
-  END
+.PROGRAM slog.pc (.$msg) #182791;
+	IF debug THEN
+		PRINT 0: $TIME + ": " + .$msg
+	END
 .END
 .PROGRAM spief_ifp.pc () #0
 	.btn_pressed = FALSE
@@ -3413,9 +3417,9 @@ debug
               ;
             SVALUE "cast":         ; Совершение броска, перед броском обновляются параметры
               CALL step_set.pc (.$msg, .$separ)
-              PULSE io_step_start
+              PULSE coord_add
               ;
-            ;VALUE "start":        ; Перезапуск игры
+              ;VALUE "start":        ; Перезапуск игры
               ;PULSE io_game_start
               ;
             SVALUE "wait":        ; Пульс соединения
@@ -3428,17 +3432,17 @@ debug
     TWAIT 0.25
   END
 .END
-.PROGRAM step_set.pc (.$msg, .$separ) #6054
-	;
-	rd = VAL ($DECODE (.$msg, .$separ, 0))     ;Задание столбца
-	.$void = $DECODE (.$msg, .$separ, 1)
-	;
-	rd_num = VAL ($DECODE (.$msg, .$separ, 0)) ;Задание строки
-	.$void = $DECODE (.$msg, .$separ, 1)
-	;
-	;.knockout = VAL ($DECODE (.$msg, .$separ, 0)) ; Установка режима выбивания
-	;.$void = $DECODE (.$msg, .$separ, 1)
-	;
+.PROGRAM step_set.pc (.$msg, .$separ) #6531
+  ;
+  rd = VAL ($DECODE (.$msg, .$separ, 0))     ;Задание столбца
+  .$void = $DECODE (.$msg, .$separ, 1)
+  ;
+  rd_num = VAL ($DECODE (.$msg, .$separ, 0)) ;Задание строки
+  .$void = $DECODE (.$msg, .$separ, 1)
+  ;
+  ;.knockout = VAL ($DECODE (.$msg, .$separ, 0)) ; Установка режима выбивания
+  ;.$void = $DECODE (.$msg, .$separ, 1)
+  ;
 .END
 .PROGRAM autostart4.pc () #0
 	; *******************************************************************
@@ -3452,11 +3456,11 @@ debug
 	; *******************************************************************
 	;
 	WHILE TRUE DO
-		IF SIG (IO_MAGNET_ON) == TRUE THEN
+		IF SIG (io_magnet_on) == TRUE THEN
 			FOR .i = 1 TO 6
 				SIGNAL O_MAGNET[.i]
 			END
-			IF SIG (IO_MAGNET_ON) == FALSE THEN
+			IF SIG (io_magnet_on) == FALSE THEN
 				FOR .i = 1 TO 6
 					SIGNAL -O_MAGNET[.i]
 				END
@@ -3467,31 +3471,32 @@ debug
 .PROGRAM calc_grab.PC () #0
 	;rd rd_num
 .END
-.PROGRAM calc_angel.PC()
-  ; *******************************************************************
-  ;
-  ; Program:      calc_angel.PC
-  ; Comment:      
-  ; Author:       User
-  ;
-  ; Date:         10/4/2023
-  ;
-  ; *******************************************************************
-  ;
+.PROGRAM calc_angel.PC () #0
+	; *******************************************************************
+	;
+	; Program:      calc_angel.PC
+	; Comment:
+	; Author:       User
+	;
+	; Date:         10/4/2023
+	;
+	; *******************************************************************
+	;
 .END
-.PROGRAM Calc_coodr.PC()
-    X_shift = DX(start_point)
-    Y_shift = DY(start_point)
-    X = X_shift + rd
-    Y = Y_shift - rd_num
+.PROGRAM Calc_coodr.PC () #0
+	X_shift = DX (start_point)
+	Y_shift = DY (start_point)
+	X = X_shift - rd
+	Y = Y_shift - rd_num + coff_vvvibe
 .END
 .TRANS
+here_point 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 home_pos 204.618408 581.433411 194.116577 -160.221832 179.997864 -31.012533
-tool_under_conv 766.672363 -74.730225 -193.128571 109.503517 179.998718 158.356598
-to_shtora_1 514.158936 339.972076 296.281128 145.830933 179.997177 -47.823479
+start_point -110.540756 603.469666 -0.829102 157.230804 0.003066 30.076523
+to_shtora_1 514.158936 339.972076 296.281128 145.830933 179.997177 -47.823475
 to_shtora_2 631.904602 -280.982147 262.166290 122.931580 179.995209 -14.552000
-start_point 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-tool_calibr -22.500000 22.500000 200.000000 -180.000000 180.000000 0.000000
+tool_calibr -22.500000 22.500000 200.000000 180.000000 180.000000 0.000000
+tool_under_conv 766.672363 -74.730225 -193.128571 109.503525 179.998718 158.356598
 .END
 .REALS
 acc = 15
@@ -3500,11 +3505,15 @@ acc2 = 50
 acc3 = 70
 angle = 90.1419
 bedug = 0
+coff_vvvibe = 240
+coff_vvvide = 160
+coord_add = 2002
 debug = 0
 del_me = 1
 gryaz_spd = 2100
 int_exec_main = 2900
 io_auto_choize = 2904
+io_magnet_on = 8
 io_step_start = 10
 lun[1,1] = 2908
 lun_start[1,1] = 0
@@ -3531,8 +3540,8 @@ O_MAGNET[4] = 16
 O_MAGNET[5] = 17
 O_MAGNET[6] = 18
 pod = 30
-rd = 581.437
-rd_num = 204.615
+rd = -328
+rd_num = 76
 rec_spd[1,3] = 150
 rec_spd[2,2] = 220
 rec_spd[2,3] = 188
@@ -3546,7 +3555,7 @@ rec_spd[4,2] = 300
 rec_spd[4,3] = 443
 rec_spd[4,4] = 313
 rec_spd[5,3] = 650
-socket_id = -34024
+socket_id = -1
 start_mag_sig = 13
 start_var[1,3,1] = 3
 start_var[1,3,2] = 2
@@ -3621,21 +3630,20 @@ start_x[5] = -200
 step_num = 1
 tcp_accept_time = 0
 tcp_conn_time = 10
-tcp_port = 48569
+tcp_port = 48568
 tcp_recv_time = 15
 tcp_send_time = 10
 throw_length = 200
 tl1 = 200
 tl2 = 100
 tl3 = 200
+X = 217.459
 x_line = 4
+X_shift = -110.541
+Y = 767.47
+Y_shift = 603.47
 Z = 194.117
-coord_add = 2002
-X_shift = 0
-Y_shift = 0
-X = 0
-Y = 0
 .END
 .STRINGS
-$tcp_ip = "192.168.40.50"
+$tcp_ip = "192.168.1.228"
 .END

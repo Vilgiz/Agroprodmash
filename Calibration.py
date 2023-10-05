@@ -167,6 +167,7 @@ if __name__ == '__main__':
     while True:
 
         ret, frame = cam.read()
+        frame = cv2.imread("image.png")
         cv2.imshow('Video', frame)
 
         key = cv2.waitKey(1)

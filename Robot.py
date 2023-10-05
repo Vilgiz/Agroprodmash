@@ -31,8 +31,8 @@ class Robot(Thread):
             self.__print(f"Client with IP {addr} was connected")
             self.conn = conn
             self.__start = lambda: self.conn.sendall(b'start;')
-            self.__cast = lambda id, speed = self.speed, coord = self.coord: self.conn.sendall(
-                f'cast;{int(speed)};{int(coord)};'.encode())
+            self.__cast = lambda id = self.speed, speed = self.coord: self.conn.sendall(
+                f'cast;{int(id)};{int(speed)};'.encode())
             self.__wait = lambda: self.conn.sendall(b'wait;')
             self.is_connected = True
         except Exception as e:
@@ -54,10 +54,9 @@ class Robot(Thread):
     def send_start(self):
         self.perm_start = True
 
-    def send_step(self, id, speed, coord):
+    def send_step(self, id, speed):
         self.id = id
         self.speed = speed
-        self.coord = coord
         self.perm_step = True
 
     def __thread(self):
