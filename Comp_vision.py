@@ -176,25 +176,6 @@ class Vision():
     def __G_color_hight(self, value6):
         self.G_color_hight = value6    
 
-    def __detect_QR(self, frame):
-        qr_codes = pyzbar.decode(self.gray)
-        cv2.imshow('d', self.gray)
-        self.center_of_QR = []     
-    
-        for qr_code in qr_codes:
-
-            qr_data = qr_code.data.decode("utf-8")
-            
-            (x, y, w, h) = qr_code.rect
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            weight_division_by_two = w/2
-            height_division_by_two = h/2
-            center = (int(x + weight_division_by_two), int(y + height_division_by_two))
-            cv2.circle(frame, center, 3, (0, 255, 0), 3)
-            
-            cv2.putText(frame, qr_data, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)               
-            self.center_of_QR.append(center)  
-
     def detect_cans_with_qr(self):
         self.detect_cans_with_qr_code = []
         for cans in self.track_only_coord:
