@@ -117,47 +117,6 @@ class ImageProcessor():
             result = cv2.rotate(result, ROTATE_90_CLOCKWISE)
             result = cv2.resize(result, (0, 0), fx=0.5, fy=0.5)
             return(result)
-    
-    def original_image_correction(self, image):
-        h,  w = image.shape[:2]
-        result = cv2.warpPerspective(image, self.M_original_image,(w, h))
-        result = result[0:1000 ,0:1800]
-        return(result)
-    
-    def original_image_draw(self, image):
-        with open('pro.json', 'r') as file:
-            config = json.load(file)
-        try:
-            self.ID = (config['rot'])
-            self.speed = (config['speed'])
-        except Exception:
-            self.ID = None
-            self.speed = None
-
-        if self.speed == 1: color = (0,0,255)
-        else: color = (0,255,0)
-        temp_a = randint(-2,2)
-        temp_b = randint(-2,2)
-        
-        cv2.line(image, (500,0), (500,1000), (0,0,255), 3)
-        X = int(50 + self.ID[1] * 150)
-        Y = int(750 + self.ID[0] * 150)
-        cv2.circle(image, (Y-35+temp_a,X+5+temp_b), 30, color, -1)
-        image = cv2.rotate(image, ROTATE_90_CLOCKWISE)
-        image = cv2.resize(image, (0, 0), fx=0.5, fy=0.5)
-        # Координаты и размеры прямоугольника
-        x, y, width, height = 0, 0, 600, 250
-        color = (0, 0, 255) 
-        alpha = 0.2 
-        overlay = image.copy()
-        cv2.rectangle(overlay, (x, y), (x + width, y + height), color, -1)
-        image = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
-        return(image)
-
-
-#########################
-calib_list = []
-#########################
 
 if __name__ == '__main__':
 

@@ -3,7 +3,6 @@ import math
 import numpy as np
 from pyzbar import pyzbar
 from math import sqrt
-from kalmanfilter import KalmanFilter
 from Queue import CircularQueue
 from Robot import Robot
 import time
@@ -32,6 +31,12 @@ class Vision():
         self.B_color_hight = 4
         self.R_color_hight = 254
         self.G_color_hight = 254
+
+        self.elapsed_time = 1.4
+        self.end_line = None
+        self.start_line = None
+
+        self.size = 16
 
     def Find_contors(self, frame):
         self.count += 1
@@ -198,25 +203,10 @@ class Vision():
                     distance = sqrt((cans[1] - qr[1])**2 + (cans[0] - qr[0])**2)
                     if distance <= 150:
                         self.detect_cans_with_qr_code.append(cans)
-                        print("YES, YES, YES, YES ,YES, YES, YES")
+                        #print("YES, YES, YES, YES ,YES, YES, YES")
             else:
                 break
-    
-    def prediction(self, img, positions):
-        i = 0
-        for pt in positions:
-            center = [pt[0][0], pt[0][1]]  # Извлекаем элемент из вложенного массива
-            cv2.circle(img, center, 8, (220, 0, 0), -1)
-            cv2.putText(img, str(i), center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)      
-            predicted = kf.predict(center[0], center[1])
-            #cv2.circle(img, predicted, 8, (20, 0, 255), -1)
-            cv2.namedWindow("Viwdeeeo") 
-            cv2.imshow('Viwdeeeo', img)
-            i += 1
-        self.pred = predicted
-        cv2.circle(img, Vis.pred, 8, (20, 0, 255), -1)
-        cv2.imshow('Viwdeeeo', img)
-        return img
+
 
     def factor(self, frame):
         brightened_image = cv2.convertScaleAbs(frame, alpha=self.brightness_factor, beta=0)
@@ -270,31 +260,7 @@ class Vision():
                                     center = i                  
                                     cv2.putText(mask, "QR!", center, cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2) 
                                     self.center_of_QR.append(center)
-                                    print("FIND")
-
-                            #moments = cv2.moments(mask, 1)
-                            #x_moment = moments['m01']
-                            #y_moment = moments['m10']
-                            #area = moments['m00']
-                            #if area != 0:
-                                #x = int(x_moment / area) 
-                                #y = int(y_moment / area) 
-                                #cv2.putText(mask, "QR!", (x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2) 
-                                #center = (x,y)
-                                #self.center_of_QR.append(center)
-                            
-                            """ for y in range(height):
-                                for x in range(width):
-                                    pixel = cropped_image[y, x]
-                                    if (pixel > [0, 100, 100]).all():
-                                        cv2.circle(white, [y, x], 1, (100, 100, 0), 1)
-                                        self.qr_there += 1
-                                        #print(self.qr_there)
-                                        if self.qr_there > 2000: 
-                                            cv2.circle(white, [y1 + 100, x1 +100], 8, (220, 0, 0), -1)
-                                            cv2.putText(white, "qr_there", [100,100], cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)  
-                                            print("Yes")
-                                            break  """
+                                    #print("FIND")
 
                             #cv2.namedWindow("white") 
                             #cv2.imshow('white', white)
@@ -307,11 +273,13 @@ class Vision():
 
     def new_prediction(self, img, positions):
         i = 0
-        img = img[0:1200, :]                                    # размер изобр
-        xList = [item for item in range(0, 610)]                # ВАжный параметр
+        img = img[0:1200, :]                                                 
+        self.cofficient = self.time_calibration()
+        self.distance_of_prediction = 520 + self.cofficient                 # ! 520 - расстояние предсказания в пикселях от левого края 
+        xList = [item for item in range(0, self.distance_of_prediction)]    # ! Я ЕГО ПОМЕНЯЛ - НАСТРОЙ КАК ТЕБЕ НУЖНО!          
         for pt in positions:
             center = [pt[0][0], pt[0][1]]
-            if i == 15:
+            if i == Vis.size-1:
                 pass
             else:
                 position = [positions[i+1][0][0], positions[i+1][0][1]]
@@ -330,15 +298,9 @@ class Vision():
         for x in xList:
             y = int(A * x ** 2 + B * x + C)  
             cv2.circle(img, (x,y), 2, (0, 255, 0), cv2.FILLED)
-            if (B ** 2 - (4 * A * C)) >= 0: 
-                XXX = int((-B - math.sqrt(B ** 2 - (4 * A * C))) / (2 * A))
-        height, width, channels = img.shape
-        cv2.circle(img, ((width * 2)+1000 ,y), 20, (255, 0, 0), cv2.FILLED)
-        #cv2.circle(img, (20,y), 20, (255, 0, 0), cv2.FILLED)
-        self.left_predcition = (20,y)                                   # куда движемся
-
-        self.right_predcition = (width *2,y)
-        cv2.imshow('Viwdeeeeo_@@@', img)
+            if x == self.distance_of_prediction-1:                   
+                cv2.circle(img, (x,y), 9, (0, 0, 255), cv2.FILLED)
+                self.right_predcition = (x,y)
         return img
 
     def sort(self):
@@ -351,34 +313,56 @@ class Vision():
             if self.track_only_coord != []:
                 if self.detect_cans_with_qr_code == []:
                     self.Grabable_cans.append(self.track_only_coord)
-                    print("Add!ADDADDADD")
+                    #print("Add!ADDADDADD")
 
         for i in self.track_only_coord:
             for j in self.detect_cans_with_qr_code:
                 if i != j:
                     self.Grabable_cans.append([i])
-                    print("Add!")
+                    #print("Add!")
                 else:
                     pass
 
     def coord_transform(self):
-        Dlina_1 = 190
-        Dlina_2 = 790-8
-
         self.X = Vis.right_predcition[1]
         self.Y = Vis.right_predcition[0]
 
 
+    def start_timer(self):
+        return time.time()                                  # Возвращаем текущее время
+
+
+    def stop_timer(self, start_time):
+        end_time = time.time()                               # Получаем текущее время
+        self.elapsed_time = end_time - start_time            # Вычисляем прошедшее время
+        return self.elapsed_time
+        
+    def time_calibration(self):
+        distance = math.sqrt((self.end_line[0][1] - self.start_line[0][1])**2 + (self.end_line[0][0] - self.start_line[0][0])**2)
+        self.speed_cans = distance / self.elapsed_time        # пиксель в секунду
+        average_time = 1                                      # среднее время прохождения банки
+        temp = average_time - self.elapsed_time
+        temp = temp ** 2
+        temp = math.sqrt(temp)
+        Kol_vo_pixel_shift = 5 // temp
+        if average_time <= self.elapsed_time:
+            self.cofficient = Kol_vo_pixel_shift       #поздно
+        if average_time > self.elapsed_time:
+            self.cofficient = - Kol_vo_pixel_shift       # РАНО
+        #self.cofficient = 1
+        return int(self.cofficient/10)                          # ! /10 - калибровка силы влияния поправки на предсказание
+                                                                # ! 10 - это очень много, почти не вляет, НАСТРОЙ!
+        
 
 if __name__ == '__main__':
     
-    size = 16
 
-    video = cv2.VideoCapture(1)
+    video = cv2.VideoCapture(0)
     Vis = Vision()
-    kf = KalmanFilter()
-    coord = CircularQueue(size)
+    Vis.size = 16
+    coord = CircularQueue(Vis.size)
     robot_tsp = Robot(print_debug = True)
+
 
 
     robot_tsp.speed = 3000
@@ -387,6 +371,7 @@ if __name__ == '__main__':
     robot_tsp.send_start()
     cotun = 0
     coord.size = 0
+
     while True:
         ret, warped_image = video.read()
         warped_image = Vis.factor(warped_image)
@@ -411,6 +396,7 @@ if __name__ == '__main__':
             if cotun >= 10:
                 coord.dequeue()
                 coord.size = 0
+                coord.tail = 0
                 cotun = 0
 
         item = Vis.Grabable_cans
@@ -420,12 +406,25 @@ if __name__ == '__main__':
                 item = item[0]
                 coord.enqueue(item)
                 coord.size += 1
-                if size == coord.size:
+
+                if coord.size == 1:
+                    start_time = Vis.start_timer()
+                    print("Таймер включен.")
+                    Vis.start_line = coord.queue[0]
+
+
+                if Vis.size == coord.size:
+
+                    Vis.elapsed_time = Vis.stop_timer(start_time)
+                    print(f"Прошло времени: {Vis.elapsed_time} секунд.")
+                    Vis.end_line = coord.queue[Vis.size-1]
+
+
                     data = coord.print_data()
-                    #Vis.prediction(peredacha, data)
                     Vis.new_prediction(peredacha, data)
                     coord.dequeue()
                     coord.size = 0
+                    coord.tail = 0
                     Vis.coord_transform()              # ! Координаты
                     with open("coff.json", "r") as file:
                         coff = json.load(file)
@@ -436,6 +435,12 @@ if __name__ == '__main__':
                     Y = height - Y
                     print(X)
                     print(Y)
+
+                    cv2.line(peredacha, (Vis.start_line[0][0], 0), (Vis.start_line[0][0], 1200), (0, 0, 250), 2)
+                    cv2.line(peredacha, (Vis.end_line[0][0], 0), (Vis.end_line[0][0], 1200), (0, 0, 250), 2)
+
+                    cv2.imshow('Line', peredacha)
+
                     robot_tsp.speed = X
                     robot_tsp.id = Y
                     robot_tsp.send_step(Y, X)

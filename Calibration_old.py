@@ -74,9 +74,9 @@ result =  pixel_dlina / coff
 
 print("###")
 print(result)
-#cv2.namedWindow("Video") 
-#cv2.imshow('Video', image)
-#cv2.waitKey(0)
+cv2.namedWindow("Video") 
+cv2.imshow('Video', image)
+cv2.waitKey(0)
 
 
 with open("coff.json", "w") as file:

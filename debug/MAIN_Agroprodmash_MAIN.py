@@ -3,7 +3,6 @@ import math
 import numpy as np
 from pyzbar import pyzbar
 from math import sqrt
-from kalmanfilter import KalmanFilter
 from Queue import CircularQueue
 import time
 
@@ -19,7 +18,6 @@ if __name__ == '__main__':
 
     video = cv2.VideoCapture(1)
     Vis = Vision()
-    kf = KalmanFilter()
     coord = CircularQueue(size)
     
 
