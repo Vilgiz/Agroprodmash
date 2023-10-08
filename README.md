@@ -55,7 +55,37 @@ self.contrast_factor = 1.661;
 self.saturation_factor = 1.371;
 ```
 
+Потом закоменти это обратно (ВАЖНО)
+
 ## Калибровка цвета и логотипа робовизард(ползунки)
+
+Раскомменти это и ты увидишь ползунки после запуска файла
+
+```typescript
+# ? cv2.createTrackbar('__B_color_low', 'Video', 1, 254, self.__B_color_low)
+# ? cv2.createTrackbar('__R_color_low', 'Video', 1, 254, self.__R_color_low)
+# ? cv2.createTrackbar('__G_color_low', 'Video', 1, 254, self.__G_color_low)
+# ? cv2.createTrackbar('__B_color_hight', 'Video', 1, 254, self.__B_color_hight)
+# ? cv2.createTrackbar('__R_color_hight', 'Video', 1, 254, self.__R_color_hight)
+# ? cv2.createTrackbar('__G_color_hight', 'Video', 1, 254, self.__G_color_hight)
+```
+
+поставь банку с робовизардом перед камерой и крути верхние, отталкиваясь от значений ниже, чаще всего 5 и 6 в максимум, а 4 придется покрутить от 1 до 10 примерно, но это не факт, так было на заводе и у меня дома )0)0)
+
+нужно добиться того, чтобы на малеком окошке (который открывает тебе питон, после того как найдет банку без лого) на банке с лого был видел только красный лого (он будет отображен белым)
+
+Потом полученные значения запиши сюда
+
+```typescript
+self.B_color_low = 1;
+self.R_color_low = 1;
+self.G_color_low = 1;
+self.B_color_hight = 4;
+self.R_color_hight = 254;
+self.G_color_hight = 254;
+```
+
+Потом закоменти это обратно (ВАЖНО)
 
 ## Калибровка Хафа(ползунки)
 
