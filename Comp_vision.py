@@ -256,7 +256,7 @@ class Vision():
         i = 0
         img = img[0:1200, :]                                                 
         self.cofficient = self.time_calibration()
-        self.distance_of_prediction = 520 + self.cofficient                 # ! 520 - расстояние предсказания в пикселях от левого края 
+        self.distance_of_prediction = 5200 + self.cofficient                 # ! 520 - расстояние предсказания в пикселях от левого края 
         xList = [item for item in range(0, self.distance_of_prediction)]    # ! Я ЕГО ПОМЕНЯЛ - НАСТРОЙ КАК ТЕБЕ НУЖНО!          
         for pt in positions:
             center = [pt[0][0], pt[0][1]]
