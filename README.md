@@ -25,7 +25,7 @@
 
 Папка должна выглядить так:
 
-![Вот так](https://github.com/Vilgiz/Agroprodmash/raw//main/image/1.png)
+![Вот так](https://github.com/Vilgiz/Agroprodmash/raw/main/image/1.png)
 
 ## Установить библиотеки из него в виртуальное пространство
 
