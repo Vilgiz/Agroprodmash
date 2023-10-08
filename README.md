@@ -27,6 +27,8 @@
 
 ![Вот так](https://github.com/Vilgiz/Agroprodmash/raw/main/1.png)
 
+1.png
+
 ## Установить библиотеки из него в виртуальное пространство
 
 Установи все библиотеки из myenv - если не знаешь как, спроси у chatgpt - он понятнее и подробнее объяснит
@@ -36,11 +38,22 @@
 Проверь соединение - запусти Comp_vision.py и проверь с одной банкой, что все приходит на робота, а на питоне все отображается и не вылетает - это значит что все установлено правильно
 
 
-
 ## Калибровка света и яркости(ползунки)
 
+Раскомменти это и ты увидишь ползунки после запуска файла
 
+```typescript
+# ? cv2.createTrackbar('brightness_factor', 'Video', 1, 2000, self.__onbrightness_factor) 
+# ? cv2.createTrackbar('contrast_factor', 'Video', 1, 2000, self.__onContrast_factor) 
+# ? cv2.createTrackbar('saturation_factor', 'Video', 1, 2000, self.__onsaturation_factor) 
+```
+Потом полученные значения раздели на 1000 и запиши сюда
 
+```typescript
+self.brightness_factor = 0.725
+self.contrast_factor = 1.661
+self.saturation_factor = 1.371
+```
 
 
 ## Источники
