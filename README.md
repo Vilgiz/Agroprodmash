@@ -56,6 +56,11 @@ self.saturation_factor = 1.371
 ```
 
 
+
+
+
+
+
 ## Источники
 
 ChatGPT
